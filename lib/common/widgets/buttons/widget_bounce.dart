@@ -7,11 +7,10 @@ class WidgetBounce extends StatefulWidget {
   // This will get the data from the pages
   // Makes sure child won't be passed as null
   const WidgetBounce(
-      {Key? key,
+      {super.key,
         required this.child,
         this.duration = const Duration(milliseconds: 300),
-        required this.onPressed})
-      : super(key: key);
+        required this.onPressed});
 
   @override
   WidgetBounceState createState() => WidgetBounceState();

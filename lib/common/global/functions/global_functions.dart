@@ -12,4 +12,16 @@ class GlobalFunctions {
   }
 
 
+  static String? validateInput({required TableRowData tableRowData, required String input}) {
+    final num = int.tryParse(input);
+    if (num == null || num < 100 || num > 999) {
+      return 'Enter a number 100-999';
+    }
+    if (tableRowData.cells.contains(input)) {
+      return 'Duplicate number';
+    }
+    return null;
+  }
+
+
 }

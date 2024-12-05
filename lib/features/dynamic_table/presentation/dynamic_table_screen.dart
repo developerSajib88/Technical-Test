@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:technical_test/common/widgets/buttons/primary_buttons.dart';
@@ -19,6 +21,7 @@ class DynamicTable extends HookConsumerWidget {
 
     final dynamicTableState = ref.watch(dynamicTableProvider);
     final dynamicTableCtrl = ref.read(dynamicTableProvider.notifier);
+    final showResult = useState<bool>(false);
 
     useEffect((){
       Future.microtask(()=> dynamicTableCtrl.fetchTableData());
@@ -39,74 +42,77 @@ class DynamicTable extends HookConsumerWidget {
         padding: padding6,
         child: dynamicTableState.tableRowData.isEmpty ?
         const Center(child: CircularProgressIndicator()) :
-        Column(
-          children: [
-            Table(
-              border: TableBorder.all(),
-              children: dynamicTableState.tableRowData.map((row) {
-                return TableRow(
-                  children: row.cells.map((cell) {
+        SingleChildScrollView(
+          child: Column(
+            children: [
+              Table(
+                border: TableBorder.all(),
+                children: dynamicTableState.tableRowData.map((row) {
+                  return TableRow(
+                    children: row.cells.map((cell) {
+                      String key = Random().nextInt(2384928439).toString();
+                      return TableCell(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: cell == "EditText"
+                              ? EditableCell(row, cell)
+                              : Text(cell),
+                        ),
+                      );
+                    }).toList(),
+                  );
+                }).toList(),
+              ),
 
-                    return TableCell(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: cell == "EditText"
-                            ? EditableCell(row, cell)
-                            : Text(cell),
-                      ),
-                    );
-                  }).toList(),
-                );
-              }).toList(),
-            ),
-            SizedBox(height: 20),
-            PrimaryButton(
-              title: "Sum",
-              backgroundColor: Colors.green,
-              onPressed: () {
-                // Calculate and show the sum
-                final sum = calculateSum(dynamicTableState.tableRowData);
-                showDialog(
-                  context: context,
-                  builder: (_) => AlertDialog(
-                    content: Text('Sum: $sum'),
-                  ),
-                );
-              },
-            )
-          ],
+              const SizedBox(height: 20),
+              PrimaryButton(
+                title: "Sum",
+                backgroundColor: Colors.green,
+                onPressed: () {
+                  dynamicTableCtrl.calculateEnteredSum();
+                  showResult.value = true;
+                },
+              ),
+
+
+              Visibility(
+                  visible: showResult.value,
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 20),
+
+                      Text("Total Entered Sum: ${dynamicTableState.totalEnteredValue}"),
+                      Text("Total Pre-filed: ${dynamicTableState.totalPreFiledValue}"),
+                      const Divider(),
+                      Text("Total : ${dynamicTableState.totalEnteredValue + dynamicTableState.totalPreFiledValue}"),
+
+                    ],
+                  )
+              )
+
+            ],
+          ),
         ),
       ),
     );
   }
 
-  int calculateSum(List<TableRowData> tableData) {
-    final uniqueNumbers = <int>{};
-    int sum = 0;
-    for (var row in tableData) {
-      for (var cell in row.cells) {
-        final num = int.tryParse(cell);
-        if (num != null && uniqueNumbers.add(num)) {
-          sum += num;
-        }
-      }
-    }
-    return sum;
-  }
+
 }
 
-class EditableCell extends StatefulWidget {
+class EditableCell extends StatefulHookConsumerWidget {
   final TableRowData row;
   final String cell;
 
-  const EditableCell(this.row, this.cell);
+  const EditableCell(this.row, this.cell, {super.key});
 
   @override
-  State<EditableCell> createState() => _EditableCellState();
+  ConsumerState<EditableCell> createState() => _EditableCellState();
 }
 
-class _EditableCellState extends State<EditableCell> {
-  final controller = TextEditingController();
+class _EditableCellState extends ConsumerState<EditableCell> {
+  String key = Random().nextInt(2384928439).toString();
+  final TextEditingController controller = TextEditingController();
 
   @override
   void initState() {
@@ -123,9 +129,8 @@ class _EditableCellState extends State<EditableCell> {
         border: OutlineInputBorder(),
         errorText: _validateInput(controller.text),
       ),
-      onChanged: (value) {
-        // Update the cell and validate
-        setState(() {});
+      onChanged: (value){
+        ref.read(dynamicTableProvider.notifier).addEnteredValues(key,value);
       },
     );
   }

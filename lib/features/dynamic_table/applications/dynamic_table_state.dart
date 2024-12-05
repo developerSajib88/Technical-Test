@@ -4,38 +4,50 @@ import 'package:technical_test/data/model/table/table_row.dart';
 
 class DynamicTableState extends Equatable {
   final bool isLoading;
-  final int sumOfEntered;
+  final int totalPreFiledValue;
+  final int totalEnteredValue;
   final List<TableRowData> tableRowData;
+  final Map<String,int> enteredValues;
 
   const DynamicTableState({
    required this.isLoading,
-   required this.sumOfEntered,
-   required this.tableRowData
+   required this.totalPreFiledValue,
+   required this.totalEnteredValue,
+   required this.tableRowData,
+   required this.enteredValues
   });
 
   @override
   // TODO: implement props
   List<Object?> get props => [
     isLoading,
-    sumOfEntered,
-    tableRowData
+    totalPreFiledValue,
+    totalEnteredValue,
+    tableRowData,
+    enteredValues
   ];
 
 
   factory DynamicTableState.init()=> const DynamicTableState(
       isLoading: false,
-      sumOfEntered: 0,
-      tableRowData: []
+      totalPreFiledValue: 0,
+      totalEnteredValue: 0,
+      tableRowData: [],
+      enteredValues: {}
   );
 
   DynamicTableState copyWith({
     bool? isLoading,
-    int? sumOfEntered,
-    List<TableRowData>? tableRowData
+    int? totalPreFiledValue,
+    int? totalEnteredValue,
+    List<TableRowData>? tableRowData,
+    Map<String,int>? enteredValues
   })=> DynamicTableState(
       isLoading: isLoading ?? this.isLoading,
-      sumOfEntered: sumOfEntered ?? this.sumOfEntered,
-      tableRowData: tableRowData ?? this.tableRowData
+      totalPreFiledValue: totalPreFiledValue ?? this.totalPreFiledValue,
+      totalEnteredValue: totalEnteredValue ?? this.totalEnteredValue,
+      tableRowData: tableRowData ?? this.tableRowData,
+      enteredValues: enteredValues ?? this.enteredValues
   );
 
 

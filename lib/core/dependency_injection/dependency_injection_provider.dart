@@ -1,6 +1,8 @@
 part of 'dependency_injection.dart';
 
 /// This is my riverpod state provider
-// final authenticationProvider =
-// StateNotifierProvider<AuthenticationStateNotifier,AuthenticationState>(
-//         (ref) => AuthenticationStateNotifier(authenticationDom: getIt())..init());
+
+// Provider for table data
+final dynamicTableProvider = StateNotifierProvider<DynamicTableStateNotifier, List<TableRowData>>((ref) {
+  return DynamicTableStateNotifier(dynamicTableDom: getIt());
+});

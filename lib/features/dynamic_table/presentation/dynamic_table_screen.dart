@@ -6,6 +6,7 @@ import 'package:technical_test/common/widgets/buttons/primary_buttons.dart';
 import 'package:technical_test/core/dependency_injection/dependency_injection.dart';
 import 'package:technical_test/data/model/table/table_row.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:technical_test/features/dynamic_table/widgets/total_display_widget.dart';
 import 'package:technical_test/utils/styles/color_palates.dart';
 import 'package:technical_test/utils/utils.dart';
 
@@ -34,7 +35,7 @@ class DynamicTable extends HookConsumerWidget {
             "Dynamic Table",
             style: TextStyle(color: ColorPalates.defaultWhite),
           ),
-          backgroundColor: Colors.green,
+          backgroundColor: ColorPalates.primaryColor,
       ),
       body: Container(
         width: 1.sw,
@@ -50,7 +51,6 @@ class DynamicTable extends HookConsumerWidget {
                 children: dynamicTableState.tableRowData.map((row) {
                   return TableRow(
                     children: row.cells.map((cell) {
-                      String key = Random().nextInt(2384928439).toString();
                       return TableCell(
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -66,12 +66,12 @@ class DynamicTable extends HookConsumerWidget {
 
               const SizedBox(height: 20),
               PrimaryButton(
-                title: "Sum",
-                backgroundColor: Colors.green,
+                text: "Calculate Sum",
                 onPressed: () {
                   dynamicTableCtrl.calculateEnteredSum();
                   showResult.value = true;
                 },
+                icon: Icons.calculate,
               ),
 
 
@@ -81,10 +81,11 @@ class DynamicTable extends HookConsumerWidget {
                     children: [
                       const SizedBox(height: 20),
 
-                      Text("Total Entered Sum: ${dynamicTableState.totalEnteredValue}"),
-                      Text("Total Pre-filed: ${dynamicTableState.totalPreFiledValue}"),
-                      const Divider(),
-                      Text("Total : ${dynamicTableState.totalEnteredValue + dynamicTableState.totalPreFiledValue}"),
+                      TotalsDisplay(
+                          totalEnteredValue: dynamicTableState.totalEnteredValue,
+                          totalPreFiledValue: dynamicTableState.totalPreFiledValue
+                      )
+
 
                     ],
                   )

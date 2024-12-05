@@ -19,6 +19,7 @@ class PrimaryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return WidgetBounce(
       onPressed: onPressed,
+      duration: const Duration(milliseconds: 100),
       child: Container(
         width: 1.sw,
         alignment: Alignment.center,

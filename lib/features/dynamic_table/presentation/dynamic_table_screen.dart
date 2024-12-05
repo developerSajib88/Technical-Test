@@ -52,11 +52,15 @@ class DynamicTable extends HookConsumerWidget {
                   return TableRow(
                     children: row.cells.map((cell) {
                       return TableCell(
+                        verticalAlignment: TableCellVerticalAlignment.middle,
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: cell == "EditText"
-                              ? EditableCell(row, cell)
-                              : Text(cell),
+                          child: cell == "EditText" ?
+                          EditableCell(row, cell) :
+                          Padding(
+                            padding: paddingLeft6,
+                            child: Text(cell),
+                          ),
                         ),
                       );
                     }).toList(),
@@ -129,6 +133,7 @@ class _EditableCellState extends ConsumerState<EditableCell> {
       decoration: InputDecoration(
         border: OutlineInputBorder(),
         errorText: _validateInput(controller.text),
+        errorStyle: TextStyle(fontSize: 5.5.sp),
       ),
       onChanged: (value){
         ref.read(dynamicTableProvider.notifier).addEnteredValues(key,value);
@@ -143,7 +148,7 @@ class _EditableCellState extends ConsumerState<EditableCell> {
     }
     // Ensure no duplicates in row
     final duplicates = widget.row.cells.where((cell) => cell == input).length;
-    if (duplicates > 1) {
+    if (widget.row.cells.contains(input)) {
       return 'Duplicate number';
     }
     return null;

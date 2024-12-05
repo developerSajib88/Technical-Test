@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:technical_test/common/widgets/buttons/primary_buttons.dart';
 import 'package:technical_test/core/dependency_injection/dependency_injection.dart';
 import 'package:technical_test/data/model/table/table_row.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:technical_test/utils/styles/color_palates.dart';
+import 'package:technical_test/utils/utils.dart';
 
 class DynamicTable extends HookConsumerWidget {
 
@@ -23,44 +26,56 @@ class DynamicTable extends HookConsumerWidget {
     },[]);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Dynamic Table')),
-      body: dynamicTableState.isEmpty
-          ? Center(child: CircularProgressIndicator())
-          : Column(
-        children: [
-          Table(
-            border: TableBorder.all(),
-            children: dynamicTableState.map((row) {
-              return TableRow(
-                children: row.cells.map((cell) {
-                  final isEditable = cell == 'EditText';
-                  return TableCell(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: isEditable
-                          ? EditableCell(row, cell)
-                          : Text(cell),
-                    ),
-                  );
-                }).toList(),
-              );
-            }).toList(),
+      appBar: AppBar(
+          title:  Text(
+            "Dynamic Table",
+            style: TextStyle(color: ColorPalates.defaultWhite),
           ),
-          SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () {
-              // Calculate and show the sum
-              final sum = calculateSum(dynamicTableState);
-              showDialog(
-                context: context,
-                builder: (_) => AlertDialog(
-                  content: Text('Sum: $sum'),
-                ),
-              );
-            },
-            child: Text('Sum'),
-          )
-        ],
+          backgroundColor: Colors.green,
+      ),
+      body: Container(
+        width: 1.sw,
+        height: 1.sh,
+        padding: padding6,
+        child: dynamicTableState.tableRowData.isEmpty ?
+        const Center(child: CircularProgressIndicator()) :
+        Column(
+          children: [
+            Table(
+              border: TableBorder.all(),
+              children: dynamicTableState.tableRowData.map((row) {
+                return TableRow(
+                  children: row.cells.map((cell) {
+
+                    return TableCell(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: cell == "EditText"
+                            ? EditableCell(row, cell)
+                            : Text(cell),
+                      ),
+                    );
+                  }).toList(),
+                );
+              }).toList(),
+            ),
+            SizedBox(height: 20),
+            PrimaryButton(
+              title: "Sum",
+              backgroundColor: Colors.green,
+              onPressed: () {
+                // Calculate and show the sum
+                final sum = calculateSum(dynamicTableState.tableRowData);
+                showDialog(
+                  context: context,
+                  builder: (_) => AlertDialog(
+                    content: Text('Sum: $sum'),
+                  ),
+                );
+              },
+            )
+          ],
+        ),
       ),
     );
   }
@@ -84,7 +99,7 @@ class EditableCell extends StatefulWidget {
   final TableRowData row;
   final String cell;
 
-  EditableCell(this.row, this.cell);
+  const EditableCell(this.row, this.cell);
 
   @override
   State<EditableCell> createState() => _EditableCellState();

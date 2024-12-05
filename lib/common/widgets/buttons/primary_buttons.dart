@@ -28,20 +28,20 @@ class PrimaryButton extends StatelessWidget {
         decoration: ShapeDecoration(
           color: backgroundColor ?? ColorPalates.primaryColor,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          shadows: const [
-            BoxShadow(
-              color: Color(0x2B0B199D),
-              blurRadius: 57.30,
-              offset: Offset(0, 4),
-              spreadRadius: 0,
-            ),
-            BoxShadow(
-              color: Color(0x160B199D),
-              blurRadius: 10.30,
-              offset: Offset(0, 8),
-              spreadRadius: 0,
-            )
-          ],
+          // shadows: const [
+          //   BoxShadow(
+          //     color: Color(0x2B0B199D),
+          //     blurRadius: 57.30,
+          //     offset: Offset(0, 4),
+          //     spreadRadius: 0,
+          //   ),
+          //   BoxShadow(
+          //     color: Color(0x160B199D),
+          //     blurRadius: 10.30,
+          //     offset: Offset(0, 8),
+          //     spreadRadius: 0,
+          //   )
+          // ],
         ),
         child: isLoading == false
             ? Text(

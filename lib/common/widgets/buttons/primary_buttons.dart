@@ -25,27 +25,31 @@ class PrimaryButton extends StatelessWidget {
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: ColorPalates.primaryColor,
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: [
+          borderRadius: radius4,
+          boxShadow: const [
             BoxShadow(
               color: Colors.black26,
               blurRadius: 10,
             ),
           ],
         ),
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+        padding: EdgeInsets.symmetric(vertical: 6.h, horizontal: 10.w),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
+
             Icon(icon, color: Colors.white),
-            const SizedBox(width: 8),
+
+            gap4,
+
             Text(
               text,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 16,
+              style: TextStyle(
+                color: ColorPalates.defaultWhite,
+                fontSize: 8.sp,
               ),
             ),
+
           ],
         ),
       ),

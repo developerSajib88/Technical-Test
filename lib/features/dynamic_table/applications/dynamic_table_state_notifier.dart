@@ -60,4 +60,6 @@ class DynamicTableStateNotifier extends StateNotifier<DynamicTableState> {
     });
     stateMaker(state.copyWith(isLoading: false));
   }
+
+
 }

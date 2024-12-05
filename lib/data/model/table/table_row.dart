@@ -9,4 +9,5 @@ class TableRowData {
     final matches = regex.allMatches(htmlRow).map((e) => e.group(1) ?? '').toList();
     return TableRowData(matches);
   }
+
 }

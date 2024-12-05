@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:technical_test/common/widgets/summary_row.dart';
+import 'package:technical_test/utils/constants/ui_constants.dart';
 
 class TotalsDisplay extends StatelessWidget {
   final int totalEnteredValue;
@@ -17,90 +19,38 @@ class TotalsDisplay extends StatelessWidget {
     return Card(
       color: Colors.grey[100],
       //elevation: 4,
-      margin: const EdgeInsets.all(16),
+      margin: padding6,
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: padding8,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: crossStart,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Icon(Icons.edit, color: Colors.blue),
-                    const SizedBox(width: 8),
-                    Text(
-                      "Entered Sum:",
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.black87,
-                      ),
-                    ),
-                  ],
-                ),
-                Text(
-                  "$totalEnteredValue",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.blue[800],
-                  ),
-                ),
-              ],
+
+            SummaryRow(
+                icon: Icons.edit,
+                label: "Entered Sum:",
+                value: totalEnteredValue.toString(),
+                color: Colors.blue
             ),
-            const SizedBox(height: 12),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Icon(Icons.file_copy, color: Colors.orange),
-                    const SizedBox(width: 8),
-                    Text(
-                      "Pre-filed Sum:",
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.black87,
-                      ),
-                    ),
-                  ],
-                ),
-                Text(
-                  "$totalPreFiledValue",
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.orange[800],
-                  ),
-                ),
-              ],
+
+            gap6,
+
+            SummaryRow(
+                icon: Icons.file_copy,
+                label: "Pre-filed Sum:",
+                value: totalPreFiledValue.toString(),
+                color: Colors.orange
             ),
+
             const Divider(height: 32, thickness: 1),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Icon(Icons.calculate, color: Colors.green),
-                    const SizedBox(width: 8),
-                    Text(
-                      "Total Sum:",
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ],
-                ),
-                Text(
-                  "$totalSum",
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.green[700],
-                  ),
-                ),
-              ],
+
+            SummaryRow(
+                icon: Icons.calculate,
+                label: "Total Sum:",
+                value: totalSum.toString(),
+                color: Colors.green
             ),
+
           ],
         ),
       ),
